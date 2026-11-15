@@ -1,0 +1,70 @@
+# run.log · hw05-receipt-ocr-api
+# วันเวลา: 2026-11-15 14:09:42 +0700
+# สกิล: dag-planner (base skill จาก 06_KC_QUEST/base_skills · ไฟล์ชุดเดียวกับ 05_DAG_Planner/_solution/skills/dag-planner)
+# สภาพแวดล้อม: รัน dagplan.py บนเครื่อง Windows (Python 3.14.0) + Chrome headless วาด PNG
+#   ไม่ได้รันใน container multi-account เพราะ Docker Desktop ไม่ได้เปิด · ผลแผนเหมือนกันเพราะใช้โควตาสมมติ
+# โควตาสมมติ: --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70 (สกิลจึงไม่เรียกบัญชีใดเลย ไม่ใช้โทเคนของทีม)
+# ไม่ได้สั่ง export / run / report
+
+$ python dagplan.py dag hw05-receipt-ocr-api --blocks hw05-receipt-ocr-api.json
+OK 10 บล็อก · สายวิกฤต B01 → B05 → B07 → B09 → B10 · ยาว 6.3M tok
+  B01    cyolo    rank 6.3    0.6 + max(B05 5.7, B06 3, B08 2.1) = 6.3
+  B02    debate   rank 6.3    0.6 + max(B05 5.7, B08 2.1) = 6.3
+  B05    yolo     rank 5.7    3 + max(B07 2.7) = 5.7
+  B03    image    rank 4.8    0.6 + max(B04 4.2) = 4.8
+  B04    yolo     rank 4.2    1.5 + max(B07 2.7) = 4.2
+  B06    cyolo    rank 3      1.5 + max(B10 1.5) = 3
+  B07    cyolo    rank 2.7    0.6 + max(B09 2.1) = 2.7
+  B08    cyolo    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B09    review   rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B10    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw05-receipt-ocr-api/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw05-receipt-ocr-api --max-agents 4 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw05-receipt-ocr-api · 10 บล็อก · สายวิกฤต B01 → B05 → B07 → B09 → B10 · agent พร้อมกันสูงสุด 4/4 · ≈ 63.0 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    debate   → yolo1(ตอบ), cyolo2(ตอบ), yolo2(ตัดสิน)  0.0–9.0 นาที
+  B03    image    → cyolo1(ทำ)  7.5–15.0 นาที
+  B04    yolo     → yolo2(ทำ)  15.0–27.5 นาที
+  B05    yolo     → yolo1(ทำ)  9.0–34.0 นาที
+  B06    cyolo    → cyolo2(ทำ)  9.0–27.8 นาที
+  B07    cyolo    → cyolo1(ทำ)  34.0–41.5 นาที
+  B08    cyolo    → cyolo1(ทำ)  9.0–16.5 นาที
+  B09    review   → cyolo1(ทำ), yolo1(ตรวจ)  41.5–50.5 นาที
+  B10    yolo     → yolo1(ทำ)  50.5–63.0 นาที
+ผลลัพธ์: plans/hw05-receipt-ocr-api/PLAN.md · plans/hw05-receipt-ocr-api/dag.png · plans/hw05-receipt-ocr-api/gantt-plan.png
+(exit 0)
+
+$ python dagplan.py dag hw05-receipt-ocr-api-a2 --blocks hw05-receipt-ocr-api.json
+OK 10 บล็อก · สายวิกฤต B01 → B05 → B07 → B09 → B10 · ยาว 6.3M tok
+  B01    cyolo    rank 6.3    0.6 + max(B05 5.7, B06 3, B08 2.1) = 6.3
+  B02    debate   rank 6.3    0.6 + max(B05 5.7, B08 2.1) = 6.3
+  B05    yolo     rank 5.7    3 + max(B07 2.7) = 5.7
+  B03    image    rank 4.8    0.6 + max(B04 4.2) = 4.8
+  B04    yolo     rank 4.2    1.5 + max(B07 2.7) = 4.2
+  B06    cyolo    rank 3      1.5 + max(B10 1.5) = 3
+  B07    cyolo    rank 2.7    0.6 + max(B09 2.1) = 2.7
+  B08    cyolo    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B09    review   rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B10    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw05-receipt-ocr-api-a2/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw05-receipt-ocr-api-a2 --max-agents 2 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw05-receipt-ocr-api-a2 · 10 บล็อก · สายวิกฤต B01 → B05 → B07 → B09 → B10 · agent พร้อมกันสูงสุด 2/2 · ≈ 26.2 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    debate   → ❌ unassigned
+  B03    image    → cyolo2(ทำ)  0.0–7.5 นาที
+  B04    yolo     → yolo1(ทำ)  7.5–20.0 นาที
+  B05    yolo     → ❌ blocked
+  B06    cyolo    → cyolo1(ทำ)  7.5–26.2 นาที
+  B07    cyolo    → ❌ blocked
+  B08    cyolo    → ❌ blocked
+  B09    review   → ❌ blocked
+  B10    yolo     → ❌ blocked
+ผลลัพธ์: plans/hw05-receipt-ocr-api-a2/PLAN.md · plans/hw05-receipt-ocr-api-a2/dag.png · plans/hw05-receipt-ocr-api-a2/gantt-plan.png
+(exit 2)
+

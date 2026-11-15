@@ -1,0 +1,74 @@
+# run.log · hw02-gov-rag-k8s
+# วันเวลา: 2026-11-15 14:09:27 +0700
+# สกิล: dag-planner (base skill จาก 06_KC_QUEST/base_skills · ไฟล์ชุดเดียวกับ 05_DAG_Planner/_solution/skills/dag-planner)
+# สภาพแวดล้อม: รัน dagplan.py บนเครื่อง Windows (Python 3.14.0) + Chrome headless วาด PNG
+#   ไม่ได้รันใน container multi-account เพราะ Docker Desktop ไม่ได้เปิด · ผลแผนเหมือนกันเพราะใช้โควตาสมมติ
+# โควตาสมมติ: --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70 (สกิลจึงไม่เรียกบัญชีใดเลย ไม่ใช้โทเคนของทีม)
+# ไม่ได้สั่ง export / run / report
+
+$ python dagplan.py dag hw02-gov-rag-k8s --blocks hw02-gov-rag-k8s.json
+OK 11 บล็อก · สายวิกฤต B01 → B03 → B05 → B06 → B08 → B11 · ยาว 7.2M tok
+  B01    cyolo    rank 7.2    0.6 + max(B03 6.6, B09 3.6) = 7.2
+  B02    cyolo    rank 7.2    0.6 + max(B03 6.6, B04 5.7, B07 3.6) = 7.2
+  B03    cyolo    rank 6.6    1.5 + max(B05 5.1) = 6.6
+  B04    debate   rank 5.7    0.6 + max(B05 5.1) = 5.7
+  B05    yolo     rank 5.1    1.5 + max(B06 3.6, B10 3) = 5.1
+  B06    review   rank 3.6    1.5 + max(B08 2.1, B11 1.5) = 3.6
+  B07    yolo     rank 3.6    1.5 + max(B08 2.1) = 3.6
+  B09    cyolo    rank 3.6    0.6 + max(B10 3) = 3.6
+  B10    cyolo    rank 3      1.5 + max(B11 1.5) = 3
+  B08    cyolo    rank 2.1    0.6 + max(B11 1.5) = 2.1
+  B11    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw02-gov-rag-k8s/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw02-gov-rag-k8s --max-agents 4 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw02-gov-rag-k8s · 11 บล็อก · สายวิกฤต B01 → B03 → B05 → B06 → B08 → B11 · agent พร้อมกันสูงสุด 4/4 · ≈ 76.9 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    cyolo    → cyolo2(ทำ)  0.0–7.5 นาที
+  B03    cyolo    → cyolo1(ทำ)  7.5–26.2 นาที
+  B04    debate   → yolo1(ตอบ), cyolo2(ตอบ), yolo2(ตัดสิน)  7.5–16.5 นาที
+  B05    yolo     → yolo2(ทำ)  26.2–38.7 นาที
+  B06    review   → yolo1(ทำ), cyolo2(ตรวจ)  38.7–56.9 นาที
+  B07    yolo     → yolo1(ทำ)  16.5–29.0 นาที
+  B08    cyolo    → cyolo2(ทำ)  56.9–64.4 นาที
+  B09    cyolo    → cyolo2(ทำ)  16.5–24.0 นาที
+  B10    cyolo    → cyolo1(ทำ)  38.7–57.5 นาที
+  B11    yolo     → yolo1(ทำ)  64.4–76.9 นาที
+ผลลัพธ์: plans/hw02-gov-rag-k8s/PLAN.md · plans/hw02-gov-rag-k8s/dag.png · plans/hw02-gov-rag-k8s/gantt-plan.png
+(exit 0)
+
+$ python dagplan.py dag hw02-gov-rag-k8s-a2 --blocks hw02-gov-rag-k8s.json
+OK 11 บล็อก · สายวิกฤต B01 → B03 → B05 → B06 → B08 → B11 · ยาว 7.2M tok
+  B01    cyolo    rank 7.2    0.6 + max(B03 6.6, B09 3.6) = 7.2
+  B02    cyolo    rank 7.2    0.6 + max(B03 6.6, B04 5.7, B07 3.6) = 7.2
+  B03    cyolo    rank 6.6    1.5 + max(B05 5.1) = 6.6
+  B04    debate   rank 5.7    0.6 + max(B05 5.1) = 5.7
+  B05    yolo     rank 5.1    1.5 + max(B06 3.6, B10 3) = 5.1
+  B06    review   rank 3.6    1.5 + max(B08 2.1, B11 1.5) = 3.6
+  B07    yolo     rank 3.6    1.5 + max(B08 2.1) = 3.6
+  B09    cyolo    rank 3.6    0.6 + max(B10 3) = 3.6
+  B10    cyolo    rank 3      1.5 + max(B11 1.5) = 3
+  B08    cyolo    rank 2.1    0.6 + max(B11 1.5) = 2.1
+  B11    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw02-gov-rag-k8s-a2/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw02-gov-rag-k8s-a2 --max-agents 2 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw02-gov-rag-k8s-a2 · 11 บล็อก · สายวิกฤต B01 → B03 → B05 → B06 → B08 → B11 · agent พร้อมกันสูงสุด 2/2 · ≈ 27.5 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    cyolo    → cyolo2(ทำ)  0.0–7.5 นาที
+  B03    cyolo    → cyolo1(ทำ)  7.5–26.2 นาที
+  B04    debate   → ❌ unassigned
+  B05    yolo     → ❌ blocked
+  B06    review   → ❌ blocked
+  B07    yolo     → yolo1(ทำ)  7.5–20.0 นาที
+  B08    cyolo    → ❌ blocked
+  B09    cyolo    → cyolo2(ทำ)  20.0–27.5 นาที
+  B10    cyolo    → ❌ blocked
+  B11    yolo     → ❌ blocked
+ผลลัพธ์: plans/hw02-gov-rag-k8s-a2/PLAN.md · plans/hw02-gov-rag-k8s-a2/dag.png · plans/hw02-gov-rag-k8s-a2/gantt-plan.png
+(exit 2)
+

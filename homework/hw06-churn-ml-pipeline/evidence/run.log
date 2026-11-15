@@ -1,0 +1,70 @@
+# run.log · hw06-churn-ml-pipeline
+# วันเวลา: 2026-11-15 14:09:47 +0700
+# สกิล: dag-planner (base skill จาก 06_KC_QUEST/base_skills · ไฟล์ชุดเดียวกับ 05_DAG_Planner/_solution/skills/dag-planner)
+# สภาพแวดล้อม: รัน dagplan.py บนเครื่อง Windows (Python 3.14.0) + Chrome headless วาด PNG
+#   ไม่ได้รันใน container multi-account เพราะ Docker Desktop ไม่ได้เปิด · ผลแผนเหมือนกันเพราะใช้โควตาสมมติ
+# โควตาสมมติ: --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70 (สกิลจึงไม่เรียกบัญชีใดเลย ไม่ใช้โทเคนของทีม)
+# ไม่ได้สั่ง export / run / report
+
+$ python dagplan.py dag hw06-churn-ml-pipeline --blocks hw06-churn-ml-pipeline.json
+OK 10 บล็อก · สายวิกฤต B02 → B03 → B04 → B05 → B07 → B10 · ยาว 9.6M tok
+  B02    cyolo    rank 9.6    0.6 + max(B03 9) = 9.6
+  B03    yolo     rank 9      1.5 + max(B04 7.5, B06 3.6) = 9
+  B01    cyolo    rank 8.1    0.6 + max(B04 7.5) = 8.1
+  B04    review   rank 7.5    1.5 + max(B05 6, B08 3.6) = 7.5
+  B05    yolo     rank 6      3 + max(B07 3) = 6
+  B06    debate   rank 3.6    0.6 + max(B07 3) = 3.6
+  B08    cyolo    rank 3.6    0.6 + max(B07 3, B09 3) = 3.6
+  B07    cyolo    rank 3      1.5 + max(B10 1.5) = 3
+  B09    yolo     rank 3      1.5 + max(B10 1.5) = 3
+  B10    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw06-churn-ml-pipeline/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw06-churn-ml-pipeline --max-agents 4 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw06-churn-ml-pipeline · 10 บล็อก · สายวิกฤต B02 → B03 → B04 → B05 → B07 → B10 · agent พร้อมกันสูงสุด 3/4 · ≈ 103.4 นาที
+  B01    cyolo    → cyolo2(ทำ)  0.0–7.5 นาที
+  B02    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B03    yolo     → yolo1(ทำ)  7.5–20.0 นาที
+  B04    review   → yolo1(ทำ), cyolo1(ตรวจ)  29.0–47.1 นาที
+  B05    yolo     → yolo1(ทำ)  47.1–72.1 นาที
+  B06    debate   → yolo1(ตอบ), cyolo1(ตอบ), yolo2(ตัดสิน)  20.0–29.0 นาที
+  B07    cyolo    → cyolo1(ทำ)  72.1–90.9 นาที
+  B08    cyolo    → cyolo1(ทำ)  47.1–54.6 นาที
+  B09    yolo     → yolo2(ทำ)  54.6–67.1 นาที
+  B10    yolo     → yolo1(ทำ)  90.9–103.4 นาที
+ผลลัพธ์: plans/hw06-churn-ml-pipeline/PLAN.md · plans/hw06-churn-ml-pipeline/dag.png · plans/hw06-churn-ml-pipeline/gantt-plan.png
+(exit 0)
+
+$ python dagplan.py dag hw06-churn-ml-pipeline-a2 --blocks hw06-churn-ml-pipeline.json
+OK 10 บล็อก · สายวิกฤต B02 → B03 → B04 → B05 → B07 → B10 · ยาว 9.6M tok
+  B02    cyolo    rank 9.6    0.6 + max(B03 9) = 9.6
+  B03    yolo     rank 9      1.5 + max(B04 7.5, B06 3.6) = 9
+  B01    cyolo    rank 8.1    0.6 + max(B04 7.5) = 8.1
+  B04    review   rank 7.5    1.5 + max(B05 6, B08 3.6) = 7.5
+  B05    yolo     rank 6      3 + max(B07 3) = 6
+  B06    debate   rank 3.6    0.6 + max(B07 3) = 3.6
+  B08    cyolo    rank 3.6    0.6 + max(B07 3, B09 3) = 3.6
+  B07    cyolo    rank 3      1.5 + max(B10 1.5) = 3
+  B09    yolo     rank 3      1.5 + max(B10 1.5) = 3
+  B10    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw06-churn-ml-pipeline-a2/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw06-churn-ml-pipeline-a2 --max-agents 2 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw06-churn-ml-pipeline-a2 · 10 บล็อก · สายวิกฤต B02 → B03 → B04 → B05 → B07 → B10 · agent พร้อมกันสูงสุด 2/2 · ≈ 63.1 นาที
+  B01    cyolo    → cyolo2(ทำ)  0.0–7.5 นาที
+  B02    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B03    yolo     → yolo1(ทำ)  7.5–20.0 นาที
+  B04    review   → yolo1(ทำ), cyolo1(ตรวจ)  20.0–38.1 นาที
+  B05    yolo     → yolo1(ทำ)  38.1–63.1 นาที
+  B06    debate   → ❌ unassigned
+  B07    cyolo    → ❌ blocked
+  B08    cyolo    → cyolo1(ทำ)  38.1–45.6 นาที
+  B09    yolo     → yolo2(ทำ)  45.6–58.1 นาที
+  B10    yolo     → ❌ blocked
+ผลลัพธ์: plans/hw06-churn-ml-pipeline-a2/PLAN.md · plans/hw06-churn-ml-pipeline-a2/dag.png · plans/hw06-churn-ml-pipeline-a2/gantt-plan.png
+(exit 2)
+

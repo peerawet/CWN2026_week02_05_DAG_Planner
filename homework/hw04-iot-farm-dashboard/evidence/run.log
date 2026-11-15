@@ -1,0 +1,66 @@
+# run.log · hw04-iot-farm-dashboard
+# วันเวลา: 2026-11-15 14:09:37 +0700
+# สกิล: dag-planner (base skill จาก 06_KC_QUEST/base_skills · ไฟล์ชุดเดียวกับ 05_DAG_Planner/_solution/skills/dag-planner)
+# สภาพแวดล้อม: รัน dagplan.py บนเครื่อง Windows (Python 3.14.0) + Chrome headless วาด PNG
+#   ไม่ได้รันใน container multi-account เพราะ Docker Desktop ไม่ได้เปิด · ผลแผนเหมือนกันเพราะใช้โควตาสมมติ
+# โควตาสมมติ: --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70 (สกิลจึงไม่เรียกบัญชีใดเลย ไม่ใช้โทเคนของทีม)
+# ไม่ได้สั่ง export / run / report
+
+$ python dagplan.py dag hw04-iot-farm-dashboard --blocks hw04-iot-farm-dashboard.json
+OK 9 บล็อก · สายวิกฤต B01 → B04 → B06 → B09 · ยาว 5.1M tok
+  B01    cyolo    rank 5.1    0.6 + max(B04 4.5, B06 3) = 5.1
+  B02    debate   rank 5.1    0.6 + max(B04 4.5, B03 2.1) = 5.1
+  B04    yolo     rank 4.5    1.5 + max(B06 3, B07 3) = 4.5
+  B05    yolo     rank 3.6    0.6 + max(B07 3) = 3.6
+  B06    cyolo    rank 3      1.5 + max(B09 1.5) = 3
+  B07    review   rank 3      1.5 + max(B09 1.5) = 3
+  B03    cyolo    rank 2.1    0.6 + max(B09 1.5) = 2.1
+  B08    image    rank 2.1    0.6 + max(B09 1.5) = 2.1
+  B09    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw04-iot-farm-dashboard/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw04-iot-farm-dashboard --max-agents 4 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw04-iot-farm-dashboard · 9 บล็อก · สายวิกฤต B01 → B04 → B06 → B09 · agent พร้อมกันสูงสุด 4/4 · ≈ 52.8 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    debate   → yolo1(ตอบ), cyolo2(ตอบ), yolo2(ตัดสิน)  0.0–9.0 นาที
+  B03    cyolo    → cyolo1(ทำ)  9.0–16.5 นาที
+  B04    yolo     → yolo2(ทำ)  9.0–21.5 นาที
+  B05    yolo     → yolo1(ทำ)  7.5–12.5 นาที
+  B06    cyolo    → cyolo1(ทำ)  21.5–40.2 นาที
+  B07    review   → yolo1(ทำ), cyolo2(ตรวจ)  21.5–39.6 นาที
+  B08    image    → cyolo2(ทำ)  9.0–16.5 นาที
+  B09    yolo     → yolo1(ทำ)  40.2–52.8 นาที
+ผลลัพธ์: plans/hw04-iot-farm-dashboard/PLAN.md · plans/hw04-iot-farm-dashboard/dag.png · plans/hw04-iot-farm-dashboard/gantt-plan.png
+(exit 0)
+
+$ python dagplan.py dag hw04-iot-farm-dashboard-a2 --blocks hw04-iot-farm-dashboard.json
+OK 9 บล็อก · สายวิกฤต B01 → B04 → B06 → B09 · ยาว 5.1M tok
+  B01    cyolo    rank 5.1    0.6 + max(B04 4.5, B06 3) = 5.1
+  B02    debate   rank 5.1    0.6 + max(B04 4.5, B03 2.1) = 5.1
+  B04    yolo     rank 4.5    1.5 + max(B06 3, B07 3) = 4.5
+  B05    yolo     rank 3.6    0.6 + max(B07 3) = 3.6
+  B06    cyolo    rank 3      1.5 + max(B09 1.5) = 3
+  B07    review   rank 3      1.5 + max(B09 1.5) = 3
+  B03    cyolo    rank 2.1    0.6 + max(B09 1.5) = 2.1
+  B08    image    rank 2.1    0.6 + max(B09 1.5) = 2.1
+  B09    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw04-iot-farm-dashboard-a2/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw04-iot-farm-dashboard-a2 --max-agents 2 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw04-iot-farm-dashboard-a2 · 9 บล็อก · สายวิกฤต B01 → B04 → B06 → B09 · agent พร้อมกันสูงสุด 2/2 · ≈ 12.5 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    debate   → ❌ unassigned
+  B03    cyolo    → ❌ blocked
+  B04    yolo     → ❌ blocked
+  B05    yolo     → yolo1(ทำ)  0.0–5.0 นาที
+  B06    cyolo    → ❌ blocked
+  B07    review   → ❌ blocked
+  B08    image    → cyolo2(ทำ)  5.0–12.5 นาที
+  B09    yolo     → ❌ blocked
+ผลลัพธ์: plans/hw04-iot-farm-dashboard-a2/PLAN.md · plans/hw04-iot-farm-dashboard-a2/dag.png · plans/hw04-iot-farm-dashboard-a2/gantt-plan.png
+(exit 2)
+

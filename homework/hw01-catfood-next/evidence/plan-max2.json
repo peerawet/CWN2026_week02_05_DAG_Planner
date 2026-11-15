@@ -1,0 +1,311 @@
+{
+ "name": "hw01-catfood-next-a2",
+ "goal": "อยากทำเว็บขายอาหารแมว ใช้ Next.js กับ Docker มีแชทบอทช่วยแนะนำอาหาร",
+ "created": "2026-11-15T14:09:27+07:00",
+ "max_agents": 2,
+ "accounts": [
+  {
+   "account": "cyolo1",
+   "kind": "cyolo",
+   "logged_in": true,
+   "plan": "default",
+   "assumed": true,
+   "session_used": 10,
+   "session_reset": "2026-11-15T19:09:25+07:00",
+   "week_used": 0,
+   "week_reset": "2026-11-22T14:09:25+07:00",
+   "cap_week": 100,
+   "headroom_session": 90,
+   "headroom_week": 100,
+   "headroom": 90,
+   "expires": "2026-11-22T14:09:25+07:00",
+   "hours_left": 168.0,
+   "use_first": 0.125,
+   "score": 43.5,
+   "slots": 3
+  },
+  {
+   "account": "cyolo2",
+   "kind": "cyolo",
+   "logged_in": true,
+   "plan": "default",
+   "assumed": true,
+   "session_used": 30,
+   "session_reset": "2026-11-15T19:09:25+07:00",
+   "week_used": 0,
+   "week_reset": "2026-11-22T14:09:25+07:00",
+   "cap_week": 100,
+   "headroom_session": 70,
+   "headroom_week": 100,
+   "headroom": 70,
+   "expires": "2026-11-22T14:09:25+07:00",
+   "hours_left": 168.0,
+   "use_first": 0.125,
+   "score": 35.5,
+   "slots": 3
+  },
+  {
+   "account": "yolo1",
+   "kind": "yolo",
+   "logged_in": true,
+   "plan": "default",
+   "assumed": true,
+   "session_used": 20,
+   "session_reset": "2026-11-15T19:09:25+07:00",
+   "week_used": 0,
+   "week_reset": "2026-11-22T14:09:25+07:00",
+   "cap_week": 100,
+   "headroom_session": 80,
+   "headroom_week": 100,
+   "headroom": 80,
+   "expires": "2026-11-22T14:09:25+07:00",
+   "hours_left": 168.0,
+   "use_first": 0.125,
+   "score": 39.5,
+   "slots": 3
+  },
+  {
+   "account": "yolo2",
+   "kind": "yolo",
+   "logged_in": true,
+   "plan": "default",
+   "assumed": true,
+   "session_used": 40,
+   "session_reset": "2026-11-15T19:09:25+07:00",
+   "week_used": 0,
+   "week_reset": "2026-11-22T14:09:25+07:00",
+   "cap_week": 100,
+   "headroom_session": 60,
+   "headroom_week": 100,
+   "headroom": 60,
+   "expires": "2026-11-22T14:09:25+07:00",
+   "hours_left": 168.0,
+   "use_first": 0.125,
+   "score": 31.5,
+   "slots": 3
+  }
+ ],
+ "notes": [
+  "ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota"
+ ],
+ "calib_k": {},
+ "critical_path": [
+  "B01",
+  "B05",
+  "B06",
+  "B10"
+ ],
+ "rank": {
+  "B10": 1.5,
+  "B06": 3.0,
+  "B05": 4.5,
+  "B07": 3.0,
+  "B08": 2.1,
+  "B09": 2.1,
+  "B01": 5.1,
+  "B03": 2.1,
+  "B02": 5.1,
+  "B04": 3.6
+ },
+ "peak_agents": 2,
+ "rounds": [
+  {
+   "t_min": 0.0,
+   "start": [
+    "B01",
+    "B02"
+   ]
+  },
+  {
+   "t_min": 7.5,
+   "start": [
+    "B05",
+    "B03"
+   ]
+  },
+  {
+   "t_min": 15.0,
+   "start": [
+    "B09"
+   ]
+  },
+  {
+   "t_min": 20.0,
+   "start": [
+    "B06"
+   ]
+  }
+ ],
+ "assign": {
+  "B01": {
+   "id": "B01",
+   "skill": "cyolo",
+   "accounts": [
+    {
+     "role": "worker",
+     "account": "cyolo1",
+     "score": 28.8,
+     "need": 0.6,
+     "why": "cyolo1 28.8 (U=0.125 F=0.002 S=0.884 S=0.7 L=0.0) · 0.60M ≈ 5ชม. 1.56% / สัปดาห์ 0.2% · อันดับ 2 cyolo2 25.8",
+     "alts": [
+      "cyolo2 25.8"
+     ]
+    }
+   ],
+   "account": "cyolo1",
+   "start": 0.0,
+   "end": 0.125,
+   "dur_base_h": 0.125,
+   "k": 1.0,
+   "status": "planned",
+   "score": 28.8
+  },
+  "B02": {
+   "id": "B02",
+   "skill": "cyolo",
+   "accounts": [
+    {
+     "role": "worker",
+     "account": "cyolo2",
+     "score": 25.8,
+     "need": 0.6,
+     "why": "cyolo2 25.8 (U=0.125 F=0.002 S=0.684 S=0.7 L=0.0) · 0.60M ≈ 5ชม. 1.56% / สัปดาห์ 0.2% · อันดับ 2 cyolo1 25.2",
+     "alts": [
+      "cyolo1 25.2"
+     ]
+    }
+   ],
+   "account": "cyolo2",
+   "start": 0.0,
+   "end": 0.125,
+   "dur_base_h": 0.125,
+   "k": 1.0,
+   "status": "planned",
+   "score": 25.8
+  },
+  "B05": {
+   "id": "B05",
+   "skill": "yolo",
+   "accounts": [
+    {
+     "role": "worker",
+     "account": "yolo1",
+     "score": 29.7,
+     "need": 1.5,
+     "why": "yolo1 29.7 (U=0.125 F=0.005 S=0.761 S=0.882 L=0.0) · 1.50M ≈ 5ชม. 3.9% / สัปดาห์ 0.49% · อันดับ 2 yolo2 26.7",
+     "alts": [
+      "yolo2 26.7"
+     ]
+    }
+   ],
+   "account": "yolo1",
+   "start": 0.125,
+   "end": 0.3333333333333333,
+   "dur_base_h": 0.2083,
+   "k": 1.0,
+   "status": "planned",
+   "score": 29.7
+  },
+  "B03": {
+   "id": "B03",
+   "skill": "image",
+   "accounts": [
+    {
+     "role": "worker",
+     "account": "cyolo1",
+     "score": 22.4,
+     "need": 0.6,
+     "why": "cyolo1 22.4 (U=0.125 F=0.002 S=0.869 S=0.288 L=0.0) · 0.60M ≈ 5ชม. 1.56% / สัปดาห์ 0.2% · อันดับ 2 cyolo2 19.4",
+     "alts": [
+      "cyolo2 19.4"
+     ]
+    }
+   ],
+   "account": "cyolo1",
+   "start": 0.125,
+   "end": 0.25,
+   "dur_base_h": 0.125,
+   "k": 1.0,
+   "status": "planned",
+   "score": 22.4
+  },
+  "B09": {
+   "id": "B09",
+   "skill": "cyolo",
+   "accounts": [
+    {
+     "role": "worker",
+     "account": "cyolo1",
+     "score": 22.2,
+     "need": 0.6,
+     "why": "cyolo1 22.2 (U=0.125 F=0.002 S=0.853 S=0.288 L=0.0) · 0.60M ≈ 5ชม. 1.56% / สัปดาห์ 0.2% · อันดับ 2 cyolo2 19.4",
+     "alts": [
+      "cyolo2 19.4"
+     ]
+    }
+   ],
+   "account": "cyolo1",
+   "start": 0.25,
+   "end": 0.375,
+   "dur_base_h": 0.125,
+   "k": 1.0,
+   "status": "planned",
+   "score": 22.2
+  },
+  "B06": {
+   "id": "B06",
+   "skill": "yolo",
+   "accounts": [
+    {
+     "role": "worker",
+     "account": "yolo1",
+     "score": 24.7,
+     "need": 1.5,
+     "why": "yolo1 24.7 (U=0.125 F=0.005 S=0.722 S=0.588 L=0.0) · 1.50M ≈ 5ชม. 3.9% / สัปดาห์ 0.49% · อันดับ 2 yolo2 22.3",
+     "alts": [
+      "yolo2 22.3"
+     ]
+    }
+   ],
+   "account": "yolo1",
+   "start": 0.3333333333333333,
+   "end": 0.5416666666666666,
+   "dur_base_h": 0.2083,
+   "k": 1.0,
+   "status": "planned",
+   "score": 24.7
+  },
+  "B04": {
+   "id": "B04",
+   "skill": "debate",
+   "accounts": [],
+   "account": null,
+   "status": "unassigned",
+   "why": "ไม่มีบัญชีชุดไหนปิดบล็อกนี้ได้ (แบ่งให้เล็กลง / เพิ่มบัญชี / ลด n)"
+  },
+  "B07": {
+   "id": "B07",
+   "skill": "review",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  },
+  "B08": {
+   "id": "B08",
+   "skill": "cyolo",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  },
+  "B10": {
+   "id": "B10",
+   "skill": "yolo",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  }
+ }
+}

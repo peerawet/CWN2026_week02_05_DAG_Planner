@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hw08-cicd-microservices · สรุปแผน</title>
+<style>
+:root {
+  --bg:#f6f7f9; --card:#ffffff; --text:#1c2230; --muted:#5b6475; --line:#e3e6ec;
+  --accent:#e8590c; --accent-soft:#fff1e8; --ok:#1f8a4c; --ok-soft:#e6f6ec; --bad:#c62828; --bad-soft:#fdeaea;
+  --head:#1f3a5f; --code:#f0f2f6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#11141a; --card:#1a1f28; --text:#e6e9ef; --muted:#9aa3b2; --line:#2b3240;
+    --accent:#ff8a4c; --accent-soft:#3a2418; --ok:#5cc98a; --ok-soft:#173326; --bad:#ff7b7b; --bad-soft:#3a1c1c;
+    --head:#24466f; --code:#232a36;
+  }
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text);
+  font-family:"Noto Sans Thai","Leelawadee UI","Sarabun",system-ui,sans-serif; line-height:1.65; font-size:16px; }
+header.top { background:var(--head); color:#fff; padding:28px 16px 22px; }
+header.top .in, main { max-width:1040px; margin:0 auto; }
+header.top h1 { margin:0 0 6px; font-size:26px; line-height:1.3; }
+header.top .goal { margin:0; opacity:.92; }
+.badges { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.badge { background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:3px 12px; font-size:14px; }
+nav.toc { max-width:1040px; margin:0 auto; padding:12px 16px 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:14px; }
+nav.toc a { color:var(--muted); text-decoration:none; }
+nav.toc a:hover { color:var(--accent); }
+main { padding:8px 16px 48px; }
+section { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:20px 22px; margin-top:18px; }
+h2 { margin:0 0 12px; font-size:20px; }
+h3 { margin:18px 0 8px; font-size:16px; }
+p { margin:8px 0; }
+.muted { color:var(--muted); }
+.scroll { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; font-size:14px; }
+th, td { border-bottom:1px solid var(--line); padding:7px 8px; text-align:start; vertical-align:top; }
+th { color:var(--muted); font-weight:600; white-space:nowrap; }
+.nw { white-space:nowrap; }
+table.wide { min-width:980px; }
+table.wide td.title { min-width:9em; }
+tr.crit td { background:var(--accent-soft); }
+code, .mono { font-family:ui-monospace,"Cascadia Code",Consolas,monospace; font-size:13px; }
+code { background:var(--code); padding:1px 5px; border-radius:6px; }
+.chip { display:inline-block; border-radius:999px; padding:1px 9px; font-size:13px; color:#fff; white-space:nowrap; }
+.sk-yolo { background:#7c3aed; } .sk-cyolo { background:#059669; } .sk-image { background:#db2777; }
+.sk-review { background:#2563eb; } .sk-debate { background:#475569; } .sk-best_of { background:#d97706; }
+.acc { display:inline-block; border:1px solid var(--line); border-radius:999px; padding:0 8px; margin:1px 2px; font-size:13px; white-space:nowrap; }
+.steps { list-style:none; padding:0; margin:0; counter-reset:s; }
+.steps li { position:relative; padding:4px 0 12px 44px; counter-increment:s; }
+.steps li::before { content:counter(s); position:absolute; inset-inline-start:0; top:2px; width:30px; height:30px; border-radius:50%;
+  background:var(--head); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; }
+.ok { color:var(--ok); font-weight:600; } .bad { color:var(--bad); font-weight:600; }
+.callout { border-inline-start:4px solid var(--accent); background:var(--accent-soft); padding:10px 14px; border-radius:10px; margin:12px 0; }
+.fig { margin:12px 0; }
+.fig img { width:100%; height:auto; border:1px solid var(--line); border-radius:12px; background:#fff; display:block; }
+.fig figcaption { font-size:13px; color:var(--muted); margin-top:6px; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.stat { border:1px solid var(--line); border-radius:14px; padding:12px 14px; }
+.stat .k { font-size:13px; color:var(--muted); } .stat .v { font-size:22px; font-weight:700; }
+.qa { border:1px solid var(--line); border-radius:14px; padding:10px 14px; margin:10px 0; }
+.qa .q { font-weight:600; }
+a { color:var(--accent); }
+@media (max-width:640px) { .grid2 { grid-template-columns:1fr; } header.top h1 { font-size:22px; } section { padding:16px; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+<h1>hw08-cicd-microservices</h1>
+<p class="goal">โจทย์: แยกระบบร้านค้าเดิม (monolith) เป็น 3 microservices มี API gateway CI/CD ด้วย GitHub Actions และ deploy ขึ้น Kubernetes ด้วย Helm</p>
+<div class="badges">
+  <span class="badge">10 บล็อก</span>
+  <span class="badge">dag: ไม่มี ERROR</span>
+  <span class="badge">สายวิกฤต 6.6M tok</span>
+  <span class="badge">แผน 4 agent ≈ 85.6 นาที</span>
+  <span class="badge">วางแผนเมื่อ 2026-11-15 14:09</span>
+</div>
+</div></header>
+<nav class="toc">
+  <a href="#what">เกิดอะไรขึ้น</a><a href="#blocks">บล็อกงาน</a><a href="#rank">DAG · rank · สายวิกฤต</a>
+  <a href="#gantt">Gantt</a><a href="#decisions">เหตุผลตอนแตกบล็อก</a><a href="#max2">ลดเหลือ 2 agent</a>
+  <a href="#files">ไฟล์</a><a href="#todo">ยังต้องทำเอง</a>
+</nav>
+<main>
+<section id="what">
+<h2>เกิดอะไรขึ้นบ้าง</h2>
+<p>หลังตกลงขอบเขตบริการและสัญญา API (B02) งานแยกได้ถึง 6 สายพร้อมกัน: 3 บริการ gateway Helm chart และ CI แล้วมารวมที่ CD และการทดสอบ end-to-end</p>
+<ol class="steps">
+  <li><b>แตกโจทย์เป็น 10 บล็อก</b> บอกสกิล ขนาด ความยาก ไฟล์ผล และเกณฑ์เสร็จ ของทุกบล็อก → <code>blocks.json</code></li>
+  <li><b>สั่ง <code>dag</code></b> สกิลตรวจไฟล์บล็อก (วงวน id ซ้ำ สกิลที่ไม่รู้จัก) แล้วคิด rank และสายวิกฤต →
+      <span class="ok">ผ่าน ไม่มี ERROR</span> · สายวิกฤต B01 → B02 → B04 → B10 ยาว 6.6M tok</li>
+  <li><b>สั่ง <code>plan --max-agents 4</code></b> KC-QUEST แจกบล็อกให้บัญชีจากโควตาสมมติ แล้วจำลองเวลา →
+      แจกได้ 10/10 บล็อก · ใช้ agent พร้อมกันสูงสุด 4/4 · ≈ 85.6 นาที →
+      <code>dag.png</code> <code>gantt-plan.png</code> <code>PLAN.md</code></li>
+  <li><b>สั่ง <code>plan --max-agents 2</code></b> เป็นแผนแยกชื่อ <code>hw08-cicd-microservices-a2</code> จะได้ไม่ทับไฟล์ของข้อ 3 →
+      แจกได้ 1/10 บล็อก → <code>evidence/PLAN-max2.md</code></li>
+  <li><b>หยุดที่แผน</b> ไม่ได้สั่ง <code>export</code> <code>run</code> <code>report</code> ตามที่อาจารย์กำหนด จึงไม่ใช้โทเคนของทีม</li>
+</ol>
+<p class="muted">โควตาที่ใช้เป็นค่าสมมติ <code>--accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70</code> สกิลจึงไม่เรียกบัญชีจริงเลย
+รันด้วย <code>dagplan.py</code> ตัวเดียวกับในสกิลบนเครื่อง Windows แทน <code>docker exec</code> เพราะตอนนั้น Docker Desktop ไม่ได้เปิดอยู่ (คำสั่งที่รันจริงอยู่ใน <a href="evidence/run.log">evidence/run.log</a>)</p>
+
+</section>
+<section id="blocks"><h2>บล็อกงาน</h2><p class="muted">แถวสีส้มคือบล็อกบนสายวิกฤต · ขนาด S/M/L = 0.6/1.5/3 ล้านโทเคน · ความยาก 1–6 เลือกรุ่นและ effort ของโมเดล</p><div class="scroll"><table class="wide"><tr><th>บล็อก</th><th>ชื่อ</th><th>สกิล</th><th>ขนาด</th><th>ยาก</th><th>ต้องรอ</th><th>rank</th><th>บัญชี (บทบาท)</th><th>นาที</th><th>ไฟล์ผล · เกณฑ์เสร็จ</th></tr><tr class="crit"><td class="nw"><b>B01</b></td><td class="title">โครง monorepo + monolith เดิม</td><td><span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="nw">S · 0.6</td><td title="haiku/low">1</td><td>–</td><td><b>6.6</b></td><td><span class="acc">cyolo1 · ทำ</span></td><td class="mono nw">0.0–7.5</td><td><code>services/README.md</code><br><span class="muted">มีโฟลเดอร์ services/ gateway/ charts/ .github/ และ monolith เดิมรันพร้อม test ผ่าน</span></td></tr><tr class="crit"><td class="nw"><b>B02</b></td><td class="title">แบ่งขอบเขต 3 บริการ + สัญญา API</td><td><span class="chip sk-debate">⚖️ debate</span></td><td class="nw">M · 1.5</td><td title="opus/xhigh">4</td><td>B01</td><td><b>6</b></td><td><span class="acc">yolo1 · ตอบ</span><span class="acc">cyolo1 · ตอบ</span><span class="acc">yolo2 · ตัดสิน</span></td><td class="mono nw">7.5–30.0</td><td><code>docs/service-boundaries.md</code><br><span class="muted">ระบุ catalog order user ตารางที่แต่ละบริการเป็นเจ้าของ และ API ระหว่างกัน ไม่มีการ join ข้ามฐานข้อมูล</span></td></tr><tr class=""><td class="nw"><b>B03</b></td><td class="title">บริการ catalog</td><td><span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="nw">M · 1.5</td><td title="sonnet/medium">2</td><td>B02</td><td><b>3</b></td><td><span class="acc">cyolo1 · ทำ</span></td><td class="mono nw">30.0–48.8</td><td><code>services/catalog/app.py</code><br><span class="muted">ย้าย endpoint สินค้าจาก monolith แล้ว test เดิมของส่วนสินค้าผ่าน</span></td></tr><tr class="crit"><td class="nw"><b>B04</b></td><td class="title">บริการ order</td><td><span class="chip sk-yolo">🧠 yolo</span></td><td class="nw">L · 3</td><td title="opus/high">3</td><td>B02</td><td><b>4.5</b></td><td><span class="acc">yolo1 · ทำ</span></td><td class="mono nw">30.0–55.0</td><td><code>services/order/app.py</code><br><span class="muted">สร้างคำสั่งซื้อโดยเรียก API ของ catalog และ user ได้ ไม่เข้าถึงฐานข้อมูลของบริการอื่น</span></td></tr><tr class=""><td class="nw"><b>B05</b></td><td class="title">บริการ user</td><td><span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="nw">M · 1.5</td><td title="sonnet/medium">2</td><td>B02</td><td><b>3</b></td><td><span class="acc">cyolo1 · ทำ</span></td><td class="mono nw">48.8–67.5</td><td><code>services/user/app.py</code><br><span class="muted">สมัครและล็อกอินได้ ออก JWT และ test เดิมของส่วนผู้ใช้ผ่าน</span></td></tr><tr class=""><td class="nw"><b>B06</b></td><td class="title">API gateway</td><td><span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="nw">S · 0.6</td><td title="sonnet/medium">2</td><td>B02</td><td><b>2.1</b></td><td><span class="acc">cyolo2 · ทำ</span></td><td class="mono nw">48.8–56.2</td><td><code>gateway/kong.yaml</code><br><span class="muted">route /catalog /orders /users ไปยังบริการที่ถูกต้อง และตรวจ JWT ที่ gateway</span></td></tr><tr class=""><td class="nw"><b>B07</b></td><td class="title">Helm chart</td><td><span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="nw">M · 1.5</td><td title="opus/high">3</td><td>B02</td><td><b>4.5</b></td><td><span class="acc">cyolo1 · ทำ</span></td><td class="mono nw">30.0–48.8</td><td><code>charts/shop/values.yaml</code><br><span class="muted">helm lint ผ่าน และ helm template ได้ manifest ของ 3 บริการกับ gateway</span></td></tr><tr class=""><td class="nw"><b>B08</b></td><td class="title">CI (GitHub Actions)</td><td><span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="nw">M · 1.5</td><td title="sonnet/medium">2</td><td>B02</td><td><b>4.5</b></td><td><span class="acc">cyolo2 · ทำ</span></td><td class="mono nw">30.0–48.8</td><td><code>.github/workflows/ci.yml</code><br><span class="muted">push แล้วรัน test และ build image ของทุกบริการแบบ matrix ผ่าน</span></td></tr><tr class=""><td class="nw"><b>B09</b></td><td class="title">CD deploy ด้วย Helm</td><td><span class="chip sk-review">🔍 review</span></td><td class="nw">M · 1.5</td><td title="opus/high">3</td><td>B07, B08</td><td><b>3</b></td><td><span class="acc">yolo1 · ทำ</span><span class="acc">cyolo1 · ตรวจ</span></td><td class="mono nw">55.0–73.1</td><td><code>.github/workflows/deploy.yml</code><br><span class="muted">merge เข้า main แล้ว helm upgrade --install ไป staging ได้ และไม่มี secret อยู่ในโค้ด</span></td></tr><tr class="crit"><td class="nw"><b>B10</b> 🔒</td><td class="title">รวม + ทดสอบ end-to-end</td><td><span class="chip sk-yolo">🧠 yolo</span></td><td class="nw">M · 1.5</td><td title="opus/xhigh">4</td><td>B03, B04, B05, B06, B09</td><td><b>1.5</b></td><td><span class="acc">yolo1 · ทำ</span></td><td class="mono nw">73.1–85.6</td><td><code>TEST.md</code><br><span class="muted">deploy ทั้งระบบบน kind ผ่าน pipeline แล้วสั่งซื้อผ่าน gateway ได้ครบขั้น บันทึกผลใน TEST.md</span></td></tr></table></div></section><section id="rank">
+<h2>DAG · rank · สายวิกฤต</h2>
+<figure class="fig"><a href="dag.png"><img src="dag.png" alt="DAG ของ hw08-cicd-microservices: กล่องคือบล็อก ลูกศรคือการรอ ขอบส้มคือสายวิกฤต B01 → B02 → B04 → B10"></a>
+<figcaption>กล่อง = บล็อก · ลูกศร A → B = B ต้องรอไฟล์ผลของ A · ป้ายสี = สกิล · ป้ายล่าง = บัญชีที่ได้งาน · ขอบส้ม = สายวิกฤต · 🔒 = รวมและทดสอบ รันคนเดียว (คลิกเพื่อดูภาพเต็ม)</figcaption></figure>
+<h3>rank คิดอย่างไร</h3>
+<p><b>rank = ขนาดของบล็อก + rank สูงสุดของบล็อกที่รอมันอยู่</b> คิดย้อนจากบล็อกสุดท้าย ใช้ <code>max</code> ไม่ใช่บวกทั้งหมด เพราะบล็อกที่รออยู่ทำพร้อมกันได้ (ตัวหนา = ตัวที่มากที่สุด)</p>
+<div class="scroll"><table><tr><th>บล็อก</th><th>ขนาด</th><th>บล็อกที่รออยู่</th><th>คำนวณ</th><th>rank</th></tr><tr class="crit"><td><b>B10</b></td><td>1.5</td><td>–</td><td class="mono">1.5 (ไม่มีบล็อกไหนรอ)</td><td><b>1.5</b></td></tr><tr class=""><td><b>B06</b></td><td>0.6</td><td>B10</td><td class="mono">0.6 + max(<b>B10 1.5</b>) = 2.1</td><td><b>2.1</b></td></tr><tr class=""><td><b>B03</b></td><td>1.5</td><td>B10</td><td class="mono">1.5 + max(<b>B10 1.5</b>) = 3</td><td><b>3</b></td></tr><tr class=""><td><b>B05</b></td><td>1.5</td><td>B10</td><td class="mono">1.5 + max(<b>B10 1.5</b>) = 3</td><td><b>3</b></td></tr><tr class=""><td><b>B09</b></td><td>1.5</td><td>B10</td><td class="mono">1.5 + max(<b>B10 1.5</b>) = 3</td><td><b>3</b></td></tr><tr class="crit"><td><b>B04</b></td><td>3</td><td>B10</td><td class="mono">3 + max(<b>B10 1.5</b>) = 4.5</td><td><b>4.5</b></td></tr><tr class=""><td><b>B07</b></td><td>1.5</td><td>B09</td><td class="mono">1.5 + max(<b>B09 3</b>) = 4.5</td><td><b>4.5</b></td></tr><tr class=""><td><b>B08</b></td><td>1.5</td><td>B09</td><td class="mono">1.5 + max(<b>B09 3</b>) = 4.5</td><td><b>4.5</b></td></tr><tr class="crit"><td><b>B02</b></td><td>1.5</td><td>B03, B04, B05, B06, B07, B08</td><td class="mono">1.5 + max(B03 3, <b>B04 4.5</b>, B05 3, B06 2.1, B07 4.5, B08 4.5) = 6</td><td><b>6</b></td></tr><tr class="crit"><td><b>B01</b></td><td>0.6</td><td>B02</td><td class="mono">0.6 + max(<b>B02 6</b>) = 6.6</td><td><b>6.6</b></td></tr></table></div>
+<p><span class="ok">✔ rank ที่คิดเองตรงกับที่สกิลคำนวณทุกบล็อก</span></p>
+<h3>สายวิกฤต</h3>
+<p>เริ่มที่บล็อก rank สูงสุด แล้วเดินไปหาบล็อกที่รออยู่ซึ่ง rank สูงสุดทีละก้าว:
+<b>B01 (6.6) → B02 (6) → B04 (4.5) → B10 (1.5)</b></p>
+<p>ความยาว = 0.6 + 1.5 + 3 + 1.5 = <b>6.6M tok</b> เท่ากับ rank ของ B01 พอดี
+บล็อกบนสายนี้ช้าเท่าไร ทั้งโปรเจกต์ช้าเท่านั้น จึงได้เลือกบัญชีก่อน</p>
+</section>
+<section id="gantt">
+<h2>Gantt แผน (agent สูงสุด 4)</h2>
+<figure class="fig"><a href="gantt-plan.png"><img src="gantt-plan.png" alt="Gantt แผนของ hw08-cicd-microservices รวมประมาณ 85.6 นาที"></a>
+<figcaption>แถว = บัญชี (บัญชีเดียวรับได้หลายงานพร้อมกันตาม slot จึงมีแถว #2) · แท่ง = บล็อก · เส้นประ = บล็อกเดียวกันที่ใช้หลายบัญชี · เวลา = โทเคนประเมิน ÷ ความเร็วของ CLI (Codex ช้ากว่า Claude)</figcaption></figure>
+<h3>เริ่มงานรอบไหนบ้าง</h3>
+<div class="scroll"><table><tr><th>นาทีที่</th><th>บล็อกที่เริ่ม</th></tr><tr><td class="mono">0</td><td>B01 → cyolo1</td></tr><tr><td class="mono">7.5</td><td>B02 → yolo1+cyolo1+yolo2</td></tr><tr><td class="mono">30</td><td>B04 → yolo1, B07 → cyolo1, B08 → cyolo2, B03 → cyolo1</td></tr><tr><td class="mono">48.8</td><td>B05 → cyolo1, B06 → cyolo2</td></tr><tr><td class="mono">55</td><td>B09 → yolo1+cyolo1</td></tr><tr><td class="mono">73.1</td><td>B10 → yolo1</td></tr></table></div><h3>บล็อกที่พร้อมแล้วแต่ต้องรอ</h3><p class='muted'>“พร้อม” = บล็อกที่ต้องรอเสร็จครบแล้ว · ตัวเลข agent นับตอนที่บล็อกพร้อม รวมบล็อกที่ KC-QUEST เพิ่งจองในรอบเดียวกัน</p><div class='scroll'><table><tr><th>บล็อก</th><th>พร้อมเมื่อ</th><th>เริ่มจริง</th><th>รอ</th><th>สาเหตุ</th></tr><tr><td class="nw"><b>B05</b> <span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="mono">30.0</td><td class="mono">48.8</td><td class="mono nw">18.8 นาที</td><td>agent ใช้อยู่ 4/4 บล็อกนี้ต้องใช้ 1 จึงไม่พอ</td></tr><tr><td class="nw"><b>B06</b> <span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="mono">30.0</td><td class="mono">48.8</td><td class="mono nw">18.8 นาที</td><td>agent ใช้อยู่ 4/4 บล็อกนี้ต้องใช้ 1 จึงไม่พอ</td></tr><tr><td class="nw"><b>B09</b> <span class="chip sk-review">🔍 review</span></td><td class="mono">48.8</td><td class="mono">55.0</td><td class="mono nw">6.2 นาที</td><td>agent ใช้อยู่ 3/4 บล็อกนี้ต้องใช้ 2 จึงไม่พอ</td></tr></table></div><h3>ทำไมแผนยาว 85.6 นาที</h3><p>เส้นทางที่กำหนดเวลาจบของแผน (ย้อนจากบล็อกที่จบช้าสุด ไปหาบล็อกที่ต้องรอซึ่งจบช้าสุด): <b>B01 → B02 → B07 → B09 → B10</b> · <span class="bad">ไม่ตรงกับสายวิกฤตจาก rank (B01 → B02 → B04 → B10)</span></p><div class="scroll"><table><tr><th>บล็อก</th><th>สกิล</th><th>ขนาด</th><th>เริ่ม–จบ</th><th>ใช้เวลา</th><th>รอก่อนเริ่ม</th></tr><tr class="crit"><td><b>B01</b></td><td><span class="chip sk-cyolo">⚙️ cyolo</span></td><td>S</td><td class="mono nw">0.0–7.5</td><td class="mono nw">7.5 นาที</td><td class="mono nw">–</td></tr><tr class="crit"><td><b>B02</b></td><td><span class="chip sk-debate">⚖️ debate</span></td><td>M</td><td class="mono nw">7.5–30.0</td><td class="mono nw">22.5 นาที</td><td class="mono nw">–</td></tr><tr class=""><td><b>B07</b></td><td><span class="chip sk-cyolo">⚙️ cyolo</span></td><td>M</td><td class="mono nw">30.0–48.8</td><td class="mono nw">18.8 นาที</td><td class="mono nw">–</td></tr><tr class=""><td><b>B09</b></td><td><span class="chip sk-review">🔍 review</span></td><td>M</td><td class="mono nw">55.0–73.1</td><td class="mono nw">18.1 นาที</td><td class="mono nw">6.2 นาที</td></tr><tr class="crit"><td><b>B10</b></td><td><span class="chip sk-yolo">🧠 yolo</span></td><td>M</td><td class="mono nw">73.1–85.6</td><td class="mono nw">12.5 นาที</td><td class="mono nw">–</td></tr></table></div><p class="muted">rank คิดจากขนาดโทเคนอย่างเดียว แต่เวลาใน Gantt ขึ้นกับอีก 3 อย่าง: ความเร็วของ CLI (Codex ช้ากว่า Claude) ขั้นตรวจหรือตัดสินที่ต่อท้าย (review · debate · best_of) และการรอ agent หรือบัญชีว่าง เส้นทางที่ทำให้จบช้าจริงจึงอาจไม่ใช่สายวิกฤต</p></section><section id="decisions"><h2>เหตุผลตอนแตกบล็อก</h2><h3>จุดที่อาจารย์ให้คิด</h3><div class="qa"><div class="q">แยกบริการแล้วทำขนานได้กี่ทาง</div><div>6 ทาง: catalog (B03) order (B04) user (B05) gateway (B06) Helm chart (B07) และ CI (B08) ทุกบล็อกรอแค่ B02 แต่เพดาน agent คือ 4 จึงทำพร้อมกันได้จริงครั้งละไม่เกิน 4</div></div><div class="qa"><div class="q">pipeline กับ Helm chart ต้องรอบริการครบหรือไม่</div><div>ไม่ต้อง chart ใช้แค่ชื่อบริการ พอร์ต และชื่อ image จาก B02 ส่วน CI ใช้ matrix ตามโฟลเดอร์บริการ ทั้งคู่ทำพร้อมกับการเขียนบริการได้ แล้วไปเจอของจริงตอนรวม (B10)</div></div><h3>เลือกสกิลอย่างไร</h3><div class="scroll"><table><tr><th>บล็อก</th><th>สกิล</th><th>เหตุผล</th></tr><tr><td><b>B02</b></td><td><span class="chip sk-debate">⚖️ debate</span></td><td>ขอบเขตบริการแก้ทีหลังยากที่สุด เพราะต้องย้ายข้อมูลข้ามบริการ ให้สองฝั่งเสนอการแบ่งแล้วมีผู้ตัดสิน</td></tr><tr><td><b>B09</b></td><td><span class="chip sk-review">🔍 review</span></td><td>workflow deploy ถือสิทธิ์เข้าถึง cluster ต้องมีคนตรวจว่าไม่มี secret หลุดในโค้ดและสิทธิ์ไม่เกินจำเป็น</td></tr><tr><td><b>–</b></td><td><span class="chip sk-image">🖼️ image</span></td><td>ไม่ใช้ ไม่มีงานภาพ</td></tr><tr><td><b>–</b></td><td><span class="chip sk-best_of">🏆 best_of</span></td><td>ไม่ใช้ ไม่มีงานสร้างสรรค์</td></tr><tr><td><b>B04 B10</b></td><td><span class="chip sk-yolo">🧠 yolo</span></td><td>order ต้องประสานกับอีก 2 บริการ และการทดสอบ end-to-end ต้องคิดทั้งระบบ</td></tr><tr><td><b>B01 B03 B05 B06 B07 B08</b></td><td><span class="chip sk-cyolo">⚙️ cyolo</span></td><td>งานตรงไปตรงมาตามสัญญา: ย้ายโค้ดเดิม ตั้งค่า gateway chart และ CI</td></tr></table></div><h3>ลูกศร</h3><div class="grid2"><div><p><b>ลูกศรที่ตัดไม่ได้</b></p><div class="qa"><div class="q mono">B02 → B04</div><div>order เรียก catalog และ user ผ่าน API ตามสัญญา ถ้าตัด จะเรียกผิดรูปแบบหรือแอบเข้าฐานข้อมูลของบริการอื่น</div></div><div class="qa"><div class="q mono">B07 → B09</div><div>CD ต้อง deploy ด้วย chart ที่มีอยู่จริง</div></div></div><div><p><b>ตั้งใจไม่ใส่ลูกศร เพื่อให้ทำพร้อมกันได้</b></p><div class="qa"><div class="q mono">B03 · B04</div><div>บริการคุยกันผ่าน API ตามสัญญา ไม่ต้องรอโค้ดของกัน</div></div><div class="qa"><div class="q mono">B07 · B03</div><div>Helm chart ไม่ต้องรอให้บริการเสร็จ</div></div></div></div></section><section id="max2">
+<h2>ถ้าลด agent สูงสุดจาก 4 เหลือ 2</h2>
+<div class="grid2">
+  <div class="stat"><div class="k">agent สูงสุด 4</div><div class="v">10/10 บล็อก · ≈ 85.6 นาที</div><div class="muted">ทั้งโปรเจกต์เสร็จ</div></div>
+  <div class="stat"><div class="k">agent สูงสุด 2</div><div class="v">1/10 บล็อก · ≈ 7.5 นาที</div>
+    <div class="bad">โปรเจกต์ไม่เสร็จ: เวลานี้นับเฉพาะบล็อกที่ได้ทำ</div></div>
+</div><div class="scroll"><table><tr><th>บล็อก</th><th>สถานะ</th><th>เพราะอะไร</th></tr><tr><td><b>B02</b> <span class="chip sk-debate">⚖️ debate</span></td><td class="bad">ไม่มีบัญชีรับ</td><td>สกิล debate ต้องใช้ 3 agent พร้อมกัน แต่เพดานคือ 2</td></tr><tr><td><b>B03</b> <span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="bad">ถูกบล็อก</td><td>ต้องรอ B02 ซึ่งไม่ได้ทำ</td></tr><tr><td><b>B04</b> <span class="chip sk-yolo">🧠 yolo</span></td><td class="bad">ถูกบล็อก</td><td>ต้องรอ B02 ซึ่งไม่ได้ทำ</td></tr><tr><td><b>B05</b> <span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="bad">ถูกบล็อก</td><td>ต้องรอ B02 ซึ่งไม่ได้ทำ</td></tr><tr><td><b>B06</b> <span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="bad">ถูกบล็อก</td><td>ต้องรอ B02 ซึ่งไม่ได้ทำ</td></tr><tr><td><b>B07</b> <span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="bad">ถูกบล็อก</td><td>ต้องรอ B02 ซึ่งไม่ได้ทำ</td></tr><tr><td><b>B08</b> <span class="chip sk-cyolo">⚙️ cyolo</span></td><td class="bad">ถูกบล็อก</td><td>ต้องรอ B02 ซึ่งไม่ได้ทำ</td></tr><tr><td><b>B09</b> <span class="chip sk-review">🔍 review</span></td><td class="bad">ถูกบล็อก</td><td>ต้องรอ B07, B08 ซึ่งไม่ได้ทำ</td></tr><tr><td><b>B10</b> <span class="chip sk-yolo">🧠 yolo</span></td><td class="bad">ถูกบล็อก</td><td>ต้องรอ B03, B04, B05, B06, B09 ซึ่งไม่ได้ทำ</td></tr></table></div><figure class="fig"><a href="evidence/gantt-plan-max2.png"><img src="evidence/gantt-plan-max2.png" alt="Gantt เมื่อจำกัด 2 agent"></a>
+<figcaption>Gantt เมื่อจำกัด 2 agent (แผนแยกชื่อ hw08-cicd-microservices-a2 · ไฟล์เต็มใน evidence/PLAN-max2.md)</figcaption></figure>
+<p class="muted">บทเรียน: บล็อกที่ใช้หลายบัญชี (review 2 · debate 3 · best_of n+1) ต้องมีเพดาน agent พอ ไม่อย่างนั้นทั้งบล็อกนั้นและทุกบล็อกที่รอมันอยู่จะไม่ได้ทำเลย</p>
+</section>
+<section id="files"><h2>ไฟล์ในโฟลเดอร์นี้</h2><div class="scroll"><table><tr><th>ไฟล์</th><th>คืออะไร</th><th></th></tr><tr><td><a href="blocks.json"><code>blocks.json</code></a></td><td>บล็อกงานที่แตกจากโจทย์</td><td>ต้องส่ง</td></tr><tr><td><a href="dag.png"><code>dag.png</code></a></td><td>DAG + rank + สายวิกฤต + บัญชีที่ได้งาน</td><td>ต้องส่ง</td></tr><tr><td><a href="gantt-plan.png"><code>gantt-plan.png</code></a></td><td>Gantt แผน (agent สูงสุด 4)</td><td>ต้องส่ง</td></tr><tr><td><a href="PLAN.md"><code>PLAN.md</code></a></td><td>ตารางแผนและเหตุผลที่ KC-QUEST เลือกบัญชี</td><td>ต้องส่ง</td></tr><tr><td><a href="ANSWER.md"><code>ANSWER.md</code></a></td><td>คำตอบ 4 ข้อ (ต้องเขียนเอง)</td><td>ต้องส่ง</td></tr><tr><td><a href="evidence/prompt.txt"><code>evidence/prompt.txt</code></a></td><td>พรอมต์ของข้อนี้</td><td>หลักฐาน</td></tr><tr><td><a href="evidence/run.log"><code>evidence/run.log</code></a></td><td>คำสั่งที่รันจริงและผลลัพธ์ทุกบรรทัด</td><td>หลักฐาน</td></tr><tr><td><a href="evidence/PLAN-max2.md"><code>evidence/PLAN-max2.md</code></a></td><td>แผนเมื่อลด agent เหลือ 2</td><td>หลักฐาน</td></tr><tr><td><a href="evidence/gantt-plan-max2.png"><code>evidence/gantt-plan-max2.png</code></a></td><td>Gantt เมื่อลด agent เหลือ 2</td><td>หลักฐาน</td></tr><tr><td><a href="evidence/plan.json"><code>evidence/plan.json · plan-max2.json</code></a></td><td>ข้อมูลดิบของทั้งสองแผน</td><td>หลักฐาน</td></tr></table></div></section><section id="todo">
+<h2>ยังต้องทำเอง: ANSWER.md</h2>
+<p>อาจารย์ให้เขียน <a href="ANSWER.md"><code>ANSWER.md</code></a> เอง ข้อละ 1–3 บรรทัด หน้านี้มีข้อมูลที่ใช้ตอบครบ:</p>
+<div class="scroll"><table><tr><th>ข้อ</th><th>ถามอะไร</th><th>ดูที่</th></tr>
+<tr><td>1</td><td>สายวิกฤต ยาวเท่าไร คิด rank ของบล็อกแรก (B01) ด้วยมือ</td><td><a href="#rank">DAG · rank · สายวิกฤต</a></td></tr>
+<tr><td>2</td><td>บล็อกไหนใช้ review · debate · best_of · image เพราะอะไร</td><td><a href="#decisions">เลือกสกิลอย่างไร</a></td></tr>
+<tr><td>3</td><td>ลูกศรที่ตัดไม่ได้ 1 เส้น และคู่ที่ตั้งใจไม่ใส่ลูกศร 1 คู่</td><td><a href="#decisions">ลูกศร</a></td></tr>
+<tr><td>4</td><td>ลดเหลือ 2 agent แล้วเปลี่ยนอย่างไร</td><td><a href="#max2">ลดเหลือ 2 agent</a></td></tr>
+</table></div>
+</section>
+</main>
+</body>
+</html>

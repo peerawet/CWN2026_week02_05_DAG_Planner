@@ -1,0 +1,216 @@
+{
+ "name": "hw08-cicd-microservices-a2",
+ "goal": "แยกระบบร้านค้าเดิม (monolith) เป็น 3 microservices มี API gateway CI/CD ด้วย GitHub Actions และ deploy ขึ้น Kubernetes ด้วย Helm",
+ "created": "2026-11-15T14:10:02+07:00",
+ "max_agents": 2,
+ "accounts": [
+  {
+   "account": "cyolo1",
+   "kind": "cyolo",
+   "logged_in": true,
+   "plan": "default",
+   "assumed": true,
+   "session_used": 10,
+   "session_reset": "2026-11-15T19:10:00+07:00",
+   "week_used": 0,
+   "week_reset": "2026-11-22T14:10:00+07:00",
+   "cap_week": 100,
+   "headroom_session": 90,
+   "headroom_week": 100,
+   "headroom": 90,
+   "expires": "2026-11-22T14:10:00+07:00",
+   "hours_left": 168.0,
+   "use_first": 0.125,
+   "score": 43.5,
+   "slots": 3
+  },
+  {
+   "account": "cyolo2",
+   "kind": "cyolo",
+   "logged_in": true,
+   "plan": "default",
+   "assumed": true,
+   "session_used": 30,
+   "session_reset": "2026-11-15T19:10:00+07:00",
+   "week_used": 0,
+   "week_reset": "2026-11-22T14:10:00+07:00",
+   "cap_week": 100,
+   "headroom_session": 70,
+   "headroom_week": 100,
+   "headroom": 70,
+   "expires": "2026-11-22T14:10:00+07:00",
+   "hours_left": 168.0,
+   "use_first": 0.125,
+   "score": 35.5,
+   "slots": 3
+  },
+  {
+   "account": "yolo1",
+   "kind": "yolo",
+   "logged_in": true,
+   "plan": "default",
+   "assumed": true,
+   "session_used": 20,
+   "session_reset": "2026-11-15T19:10:00+07:00",
+   "week_used": 0,
+   "week_reset": "2026-11-22T14:10:00+07:00",
+   "cap_week": 100,
+   "headroom_session": 80,
+   "headroom_week": 100,
+   "headroom": 80,
+   "expires": "2026-11-22T14:10:00+07:00",
+   "hours_left": 168.0,
+   "use_first": 0.125,
+   "score": 39.5,
+   "slots": 3
+  },
+  {
+   "account": "yolo2",
+   "kind": "yolo",
+   "logged_in": true,
+   "plan": "default",
+   "assumed": true,
+   "session_used": 40,
+   "session_reset": "2026-11-15T19:10:00+07:00",
+   "week_used": 0,
+   "week_reset": "2026-11-22T14:10:00+07:00",
+   "cap_week": 100,
+   "headroom_session": 60,
+   "headroom_week": 100,
+   "headroom": 60,
+   "expires": "2026-11-22T14:10:00+07:00",
+   "hours_left": 168.0,
+   "use_first": 0.125,
+   "score": 31.5,
+   "slots": 3
+  }
+ ],
+ "notes": [
+  "ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota"
+ ],
+ "calib_k": {},
+ "critical_path": [
+  "B01",
+  "B02",
+  "B04",
+  "B10"
+ ],
+ "rank": {
+  "B10": 1.5,
+  "B03": 3.0,
+  "B04": 4.5,
+  "B05": 3.0,
+  "B06": 2.1,
+  "B09": 3.0,
+  "B07": 4.5,
+  "B08": 4.5,
+  "B02": 6.0,
+  "B01": 6.6
+ },
+ "peak_agents": 1,
+ "rounds": [
+  {
+   "t_min": 0.0,
+   "start": [
+    "B01"
+   ]
+  }
+ ],
+ "assign": {
+  "B01": {
+   "id": "B01",
+   "skill": "cyolo",
+   "accounts": [
+    {
+     "role": "worker",
+     "account": "cyolo1",
+     "score": 28.8,
+     "need": 0.6,
+     "why": "cyolo1 28.8 (U=0.125 F=0.002 S=0.884 S=0.7 L=0.0) · 0.60M ≈ 5ชม. 1.56% / สัปดาห์ 0.2% · อันดับ 2 cyolo2 25.8",
+     "alts": [
+      "cyolo2 25.8"
+     ]
+    }
+   ],
+   "account": "cyolo1",
+   "start": 0.0,
+   "end": 0.125,
+   "dur_base_h": 0.125,
+   "k": 1.0,
+   "status": "planned",
+   "score": 28.8
+  },
+  "B02": {
+   "id": "B02",
+   "skill": "debate",
+   "accounts": [],
+   "account": null,
+   "status": "unassigned",
+   "why": "ไม่มีบัญชีชุดไหนปิดบล็อกนี้ได้ (แบ่งให้เล็กลง / เพิ่มบัญชี / ลด n)"
+  },
+  "B03": {
+   "id": "B03",
+   "skill": "cyolo",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  },
+  "B04": {
+   "id": "B04",
+   "skill": "yolo",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  },
+  "B05": {
+   "id": "B05",
+   "skill": "cyolo",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  },
+  "B06": {
+   "id": "B06",
+   "skill": "cyolo",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  },
+  "B07": {
+   "id": "B07",
+   "skill": "cyolo",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  },
+  "B08": {
+   "id": "B08",
+   "skill": "cyolo",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  },
+  "B09": {
+   "id": "B09",
+   "skill": "review",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  },
+  "B10": {
+   "id": "B10",
+   "skill": "yolo",
+   "accounts": [],
+   "account": null,
+   "status": "blocked",
+   "why": "รอบล็อกที่ไม่มีบัญชีรับ"
+  }
+ }
+}

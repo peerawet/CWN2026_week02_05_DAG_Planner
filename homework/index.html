@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>การบ้าน DAG Planner</title>
+<style>
+:root { --bg:#f6f7f9; --card:#fff; --text:#1c2230; --muted:#5b6475; --line:#e3e6ec; --accent:#e8590c; --ok:#1f8a4c; --bad:#c62828; --head:#1f3a5f; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#11141a; --card:#1a1f28; --text:#e6e9ef; --muted:#9aa3b2; --line:#2b3240; --accent:#ff8a4c; --ok:#5cc98a; --bad:#ff7b7b; --head:#24466f; }
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font-family:"Noto Sans Thai","Leelawadee UI","Sarabun",system-ui,sans-serif; line-height:1.6; }
+header { background:var(--head); color:#fff; padding:26px 16px; }
+header .in, main { max-width:1120px; margin:0 auto; }
+header h1 { margin:0 0 4px; font-size:24px; } header p { margin:0; opacity:.9; }
+main { padding:18px 16px 48px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:18px 20px; }
+.scroll { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; min-width:900px; font-size:14px; }
+th, td { border-bottom:1px solid var(--line); padding:9px 8px; text-align:start; vertical-align:top; }
+th { color:var(--muted); font-weight:600; white-space:nowrap; }
+.muted { color:var(--muted); font-size:13px; } .mono { font-family:ui-monospace,Consolas,monospace; font-size:13px; }
+.nw { white-space:nowrap; } .ok { color:var(--ok); font-weight:600; } .bad { color:var(--bad); } .todo { color:var(--accent); font-weight:600; }
+.chip { display:inline-block; border-radius:999px; padding:0 8px; margin:1px 0; font-size:12px; color:#fff; white-space:nowrap; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+ul { margin:12px 0 0; padding-inline-start:20px; }
+</style>
+</head>
+<body>
+<header><div class="in"><h1>การบ้านบท 05 · DAG Planner</h1>
+<p>CWN2026 Week 02 · วางแผน 10 โจทย์ด้วยสกิล dag-planner (DAG + Gantt · ยังไม่รันจริง) · คลิกชื่อแผนเพื่อดูว่าแต่ละข้อเกิดอะไรขึ้น</p></div></header>
+<main><div class="card"><div class="scroll"><table>
+<tr><th>ข้อ</th><th>แผน · โจทย์</th><th>บล็อก</th><th>สกิลที่ใช้</th><th>สายวิกฤต</th><th>แผน 4 agent</th><th>ถ้าเหลือ 2 agent</th><th>ANSWER.md</th></tr>
+<tr><td>1</td>
+<td><a href="hw01-catfood-next/report.html"><b>hw01-catfood-next</b></a><div class="muted">อยากทำเว็บขายอาหารแมว ใช้ Next.js กับ Docker มีแชทบอทช่วยแนะนำอาหาร</div></td>
+<td>10</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#db2777">image</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#475569">debate</span></td>
+<td class="mono">B01 → B05 → B06 → B10<div class="muted">5.1M tok</div></td>
+<td class="mono nw">59.0 นาที</td>
+<td class="mono nw bad">6/10 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr><tr><td>2</td>
+<td><a href="hw02-gov-rag-k8s/report.html"><b>hw02-gov-rag-k8s</b></a><div class="muted">ระบบ RAG ถามตอบเอกสารภาครัฐ (ประกาศและระเบียบแบบ PDF) ตอบพร้อมอ้างอิงหน้าเอกสาร และ deployment ด้วย Kubernetes</div></td>
+<td>11</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#475569">debate</span></td>
+<td class="mono">B01 → B03 → B05 → B06 → B08 → B11<div class="muted">7.2M tok</div></td>
+<td class="mono nw">76.9 นาที</td>
+<td class="mono nw bad">5/11 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr><tr><td>3</td>
+<td><a href="hw03-clinic-line-queue/report.html"><b>hw03-clinic-line-queue</b></a><div class="muted">ระบบจองคิวคลินิกผ่าน LINE chatbot มีแจ้งเตือนก่อนถึงคิว และหน้า dashboard ของเจ้าหน้าที่</div></td>
+<td>10</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#db2777">image</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#d97706">best_of</span></td>
+<td class="mono">B01 → B02 → B04 → B05 → B10<div class="muted">6.6M tok</div></td>
+<td class="mono nw">72.9 นาที</td>
+<td class="mono nw bad">6/10 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr><tr><td>4</td>
+<td><a href="hw04-iot-farm-dashboard/report.html"><b>hw04-iot-farm-dashboard</b></a><div class="muted">ระบบ IoT ฟาร์มผัก เซนเซอร์ส่งค่าผ่าน MQTT เก็บลงฐานข้อมูล time series แสดงผลบน Grafana และแจ้งเตือนเมื่อค่าเกินเกณฑ์ ทั้งหมดรันด้วย Docker Compose</div></td>
+<td>9</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#db2777">image</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#475569">debate</span></td>
+<td class="mono">B01 → B04 → B06 → B09<div class="muted">5.1M tok</div></td>
+<td class="mono nw">52.8 นาที</td>
+<td class="mono nw bad">3/9 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr><tr><td>5</td>
+<td><a href="hw05-receipt-ocr-api/report.html"><b>hw05-receipt-ocr-api</b></a><div class="muted">API อ่านใบเสร็จภาษาไทย (OCR) ด้วย FastAPI มีคิวงาน รันใน Docker และมีรายงานความแม่นยำจากชุดทดสอบ</div></td>
+<td>10</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#db2777">image</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#475569">debate</span></td>
+<td class="mono">B01 → B05 → B07 → B09 → B10<div class="muted">6.3M tok</div></td>
+<td class="mono nw">63.0 นาที</td>
+<td class="mono nw bad">4/10 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr><tr><td>6</td>
+<td><a href="hw06-churn-ml-pipeline/report.html"><b>hw06-churn-ml-pipeline</b></a><div class="muted">pipeline ทำนายลูกค้าเลิกใช้บริการ ตั้งแต่เตรียมข้อมูล เทรนโมเดล เก็บผลการทดลอง เปิดเป็น API และหน้า dashboard ติดตามผล</div></td>
+<td>10</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#475569">debate</span></td>
+<td class="mono">B02 → B03 → B04 → B05 → B07 → B10<div class="muted">9.6M tok</div></td>
+<td class="mono nw">103.4 นาที</td>
+<td class="mono nw bad">7/10 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr><tr><td>7</td>
+<td><a href="hw07-expense-mobile/report.html"><b>hw07-expense-mobile</b></a><div class="muted">แอปมือถือบันทึกรายจ่าย สแกนสลิปโอนเงินแล้วกรอกให้อัตโนมัติ มี backend เก็บข้อมูล และสรุปรายจ่ายรายเดือนเป็นกราฟ</div></td>
+<td>11</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#db2777">image</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#475569">debate</span></td>
+<td class="mono">B02 → B03 → B05 → B11<div class="muted">6.6M tok</div></td>
+<td class="mono nw">72.5 นาที</td>
+<td class="mono nw bad">8/11 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr><tr><td>8</td>
+<td><a href="hw08-cicd-microservices/report.html"><b>hw08-cicd-microservices</b></a><div class="muted">แยกระบบร้านค้าเดิม (monolith) เป็น 3 microservices มี API gateway CI/CD ด้วย GitHub Actions และ deploy ขึ้น Kubernetes ด้วย Helm</div></td>
+<td>10</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#475569">debate</span></td>
+<td class="mono">B01 → B02 → B04 → B10<div class="muted">6.6M tok</div></td>
+<td class="mono nw">85.6 นาที</td>
+<td class="mono nw bad">1/10 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr><tr><td>9</td>
+<td><a href="hw09-course-media/report.html"><b>hw09-course-media</b></a><div class="muted">สื่อการสอนออนไลน์ 1 บทเรื่อง &quot;Docker เบื้องต้น&quot; มีสไลด์ ภาพประกอบ สคริปต์บรรยาย แบบทดสอบ 10 ข้อ และหน้าเว็บรวมทุกอย่าง</div></td>
+<td>9</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#db2777">image</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#d97706">best_of</span></td>
+<td class="mono">B02 → B07 → B08 → B09<div class="muted">5.1M tok</div></td>
+<td class="mono nw">73.1 นาที</td>
+<td class="mono nw bad">7/9 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr><tr><td>10</td>
+<td><a href="hw10-ai-autograder/report.html"><b>hw10-ai-autograder</b></a><div class="muted">ระบบส่งการบ้านเขียนโปรแกรม รันโค้ดนักศึกษาใน sandbox (Docker) ตรวจด้วย test case ให้ AI เขียนคำแนะนำ และสรุปคะแนนให้อาจารย์</div></td>
+<td>10</td><td><span class="chip" style="background:#7c3aed">yolo</span> <span class="chip" style="background:#059669">cyolo</span> <span class="chip" style="background:#2563eb">review</span> <span class="chip" style="background:#475569">debate</span></td>
+<td class="mono">B01 → B03 → B05 → B07 → B10<div class="muted">8.1M tok</div></td>
+<td class="mono nw">90.2 นาที</td>
+<td class="mono nw bad">6/10 บล็อก</td>
+<td><span class="todo">ยังไม่เขียน</span></td></tr>
+</table></div>
+<ul class="muted">
+<li>ทุกแผนใช้โควตาสมมติ yolo1:80 · yolo2:60 · cyolo1:90 · cyolo2:70 จึงไม่ได้เรียกบัญชีจริงและไม่ใช้โทเคนของทีม</li>
+<li>“ถ้าเหลือ 2 agent” = จำนวนบล็อกที่ยังมีบัญชีรับ บล็อก debate (3 บัญชี) และ best_of (n+1) รับไม่ได้ และบล็อกที่รอมันอยู่ทำต่อไม่ได้ด้วย</li>
+<li>ANSWER.md อาจารย์ให้เขียนเอง ข้อละ 4 คำถาม หน้า report.html ของแต่ละข้อบอกว่าข้อมูลที่ใช้ตอบอยู่ตรงไหน</li>
+</ul></div></main>
+</body>
+</html>

@@ -1,0 +1,70 @@
+# run.log · hw01-catfood-next
+# วันเวลา: 2026-11-15 14:09:22 +0700
+# สกิล: dag-planner (base skill จาก 06_KC_QUEST/base_skills · ไฟล์ชุดเดียวกับ 05_DAG_Planner/_solution/skills/dag-planner)
+# สภาพแวดล้อม: รัน dagplan.py บนเครื่อง Windows (Python 3.14.0) + Chrome headless วาด PNG
+#   ไม่ได้รันใน container multi-account เพราะ Docker Desktop ไม่ได้เปิด · ผลแผนเหมือนกันเพราะใช้โควตาสมมติ
+# โควตาสมมติ: --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70 (สกิลจึงไม่เรียกบัญชีใดเลย ไม่ใช้โทเคนของทีม)
+# ไม่ได้สั่ง export / run / report
+
+$ python dagplan.py dag hw01-catfood-next --blocks hw01-catfood-next.json
+OK 10 บล็อก · สายวิกฤต B01 → B05 → B06 → B10 · ยาว 5.1M tok
+  B01    cyolo    rank 5.1    0.6 + max(B05 4.5, B07 3, B08 2.1, B09 2.1) = 5.1
+  B02    cyolo    rank 5.1    0.6 + max(B05 4.5, B07 3, B03 2.1) = 5.1
+  B05    yolo     rank 4.5    1.5 + max(B06 3, B10 1.5) = 4.5
+  B04    debate   rank 3.6    0.6 + max(B07 3, B08 2.1) = 3.6
+  B06    yolo     rank 3      1.5 + max(B10 1.5) = 3
+  B07    review   rank 3      1.5 + max(B10 1.5) = 3
+  B03    image    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B08    cyolo    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B09    cyolo    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B10    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw01-catfood-next/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw01-catfood-next --max-agents 4 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw01-catfood-next · 10 บล็อก · สายวิกฤต B01 → B05 → B06 → B10 · agent พร้อมกันสูงสุด 4/4 · ≈ 59.0 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    cyolo    → cyolo2(ทำ)  0.0–7.5 นาที
+  B03    image    → cyolo1(ทำ)  16.5–24.0 นาที
+  B04    debate   → yolo2(ตอบ), cyolo1(ตอบ), yolo1(ตัดสิน)  7.5–16.5 นาที
+  B05    yolo     → yolo1(ทำ)  7.5–20.0 นาที
+  B06    yolo     → yolo1(ทำ)  20.0–32.5 นาที
+  B07    review   → cyolo1(ทำ), yolo2(ตรวจ)  24.0–46.5 นาที
+  B08    cyolo    → cyolo2(ทำ)  16.5–24.0 นาที
+  B09    cyolo    → cyolo1(ทำ)  16.5–24.0 นาที
+  B10    yolo     → yolo1(ทำ)  46.5–59.0 นาที
+ผลลัพธ์: plans/hw01-catfood-next/PLAN.md · plans/hw01-catfood-next/dag.png · plans/hw01-catfood-next/gantt-plan.png
+(exit 0)
+
+$ python dagplan.py dag hw01-catfood-next-a2 --blocks hw01-catfood-next.json
+OK 10 บล็อก · สายวิกฤต B01 → B05 → B06 → B10 · ยาว 5.1M tok
+  B01    cyolo    rank 5.1    0.6 + max(B05 4.5, B07 3, B08 2.1, B09 2.1) = 5.1
+  B02    cyolo    rank 5.1    0.6 + max(B05 4.5, B07 3, B03 2.1) = 5.1
+  B05    yolo     rank 4.5    1.5 + max(B06 3, B10 1.5) = 4.5
+  B04    debate   rank 3.6    0.6 + max(B07 3, B08 2.1) = 3.6
+  B06    yolo     rank 3      1.5 + max(B10 1.5) = 3
+  B07    review   rank 3      1.5 + max(B10 1.5) = 3
+  B03    image    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B08    cyolo    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B09    cyolo    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B10    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw01-catfood-next-a2/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw01-catfood-next-a2 --max-agents 2 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw01-catfood-next-a2 · 10 บล็อก · สายวิกฤต B01 → B05 → B06 → B10 · agent พร้อมกันสูงสุด 2/2 · ≈ 32.5 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    cyolo    → cyolo2(ทำ)  0.0–7.5 นาที
+  B03    image    → cyolo1(ทำ)  7.5–15.0 นาที
+  B04    debate   → ❌ unassigned
+  B05    yolo     → yolo1(ทำ)  7.5–20.0 นาที
+  B06    yolo     → yolo1(ทำ)  20.0–32.5 นาที
+  B07    review   → ❌ blocked
+  B08    cyolo    → ❌ blocked
+  B09    cyolo    → cyolo1(ทำ)  15.0–22.5 นาที
+  B10    yolo     → ❌ blocked
+ผลลัพธ์: plans/hw01-catfood-next-a2/PLAN.md · plans/hw01-catfood-next-a2/dag.png · plans/hw01-catfood-next-a2/gantt-plan.png
+(exit 2)
+

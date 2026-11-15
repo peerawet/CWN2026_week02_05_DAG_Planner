@@ -1,0 +1,70 @@
+# run.log · hw08-cicd-microservices
+# วันเวลา: 2026-11-15 14:09:57 +0700
+# สกิล: dag-planner (base skill จาก 06_KC_QUEST/base_skills · ไฟล์ชุดเดียวกับ 05_DAG_Planner/_solution/skills/dag-planner)
+# สภาพแวดล้อม: รัน dagplan.py บนเครื่อง Windows (Python 3.14.0) + Chrome headless วาด PNG
+#   ไม่ได้รันใน container multi-account เพราะ Docker Desktop ไม่ได้เปิด · ผลแผนเหมือนกันเพราะใช้โควตาสมมติ
+# โควตาสมมติ: --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70 (สกิลจึงไม่เรียกบัญชีใดเลย ไม่ใช้โทเคนของทีม)
+# ไม่ได้สั่ง export / run / report
+
+$ python dagplan.py dag hw08-cicd-microservices --blocks hw08-cicd-microservices.json
+OK 10 บล็อก · สายวิกฤต B01 → B02 → B04 → B10 · ยาว 6.6M tok
+  B01    cyolo    rank 6.6    0.6 + max(B02 6) = 6.6
+  B02    debate   rank 6      1.5 + max(B04 4.5, B07 4.5, B08 4.5, B03 3, B05 3, B06 2.1) = 6
+  B04    yolo     rank 4.5    3 + max(B10 1.5) = 4.5
+  B07    cyolo    rank 4.5    1.5 + max(B09 3) = 4.5
+  B08    cyolo    rank 4.5    1.5 + max(B09 3) = 4.5
+  B03    cyolo    rank 3      1.5 + max(B10 1.5) = 3
+  B05    cyolo    rank 3      1.5 + max(B10 1.5) = 3
+  B09    review   rank 3      1.5 + max(B10 1.5) = 3
+  B06    cyolo    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B10    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw08-cicd-microservices/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw08-cicd-microservices --max-agents 4 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw08-cicd-microservices · 10 บล็อก · สายวิกฤต B01 → B02 → B04 → B10 · agent พร้อมกันสูงสุด 4/4 · ≈ 85.6 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    debate   → yolo1(ตอบ), cyolo1(ตอบ), yolo2(ตัดสิน)  7.5–30.0 นาที
+  B03    cyolo    → cyolo1(ทำ)  30.0–48.8 นาที
+  B04    yolo     → yolo1(ทำ)  30.0–55.0 นาที
+  B05    cyolo    → cyolo1(ทำ)  48.8–67.5 นาที
+  B06    cyolo    → cyolo2(ทำ)  48.8–56.2 นาที
+  B07    cyolo    → cyolo1(ทำ)  30.0–48.8 นาที
+  B08    cyolo    → cyolo2(ทำ)  30.0–48.8 นาที
+  B09    review   → yolo1(ทำ), cyolo1(ตรวจ)  55.0–73.1 นาที
+  B10    yolo     → yolo1(ทำ)  73.1–85.6 นาที
+ผลลัพธ์: plans/hw08-cicd-microservices/PLAN.md · plans/hw08-cicd-microservices/dag.png · plans/hw08-cicd-microservices/gantt-plan.png
+(exit 0)
+
+$ python dagplan.py dag hw08-cicd-microservices-a2 --blocks hw08-cicd-microservices.json
+OK 10 บล็อก · สายวิกฤต B01 → B02 → B04 → B10 · ยาว 6.6M tok
+  B01    cyolo    rank 6.6    0.6 + max(B02 6) = 6.6
+  B02    debate   rank 6      1.5 + max(B04 4.5, B07 4.5, B08 4.5, B03 3, B05 3, B06 2.1) = 6
+  B04    yolo     rank 4.5    3 + max(B10 1.5) = 4.5
+  B07    cyolo    rank 4.5    1.5 + max(B09 3) = 4.5
+  B08    cyolo    rank 4.5    1.5 + max(B09 3) = 4.5
+  B03    cyolo    rank 3      1.5 + max(B10 1.5) = 3
+  B05    cyolo    rank 3      1.5 + max(B10 1.5) = 3
+  B09    review   rank 3      1.5 + max(B10 1.5) = 3
+  B06    cyolo    rank 2.1    0.6 + max(B10 1.5) = 2.1
+  B10    yolo     rank 1.5    = 1.5 (ไม่มีใครรอ)
+ภาพ: plans/hw08-cicd-microservices-a2/dag.png
+(exit 0)
+
+$ python dagplan.py plan hw08-cicd-microservices-a2 --max-agents 2 --accounts yolo1:80,yolo2:60,cyolo1:90,cyolo2:70
+  ⚠ ทุกบัญชีเป็นค่าสมมติ (--accounts มี % ครบ) → ไม่ได้เรียก team.py check/quota
+OK แผน hw08-cicd-microservices-a2 · 10 บล็อก · สายวิกฤต B01 → B02 → B04 → B10 · agent พร้อมกันสูงสุด 1/2 · ≈ 7.5 นาที
+  B01    cyolo    → cyolo1(ทำ)  0.0–7.5 นาที
+  B02    debate   → ❌ unassigned
+  B03    cyolo    → ❌ blocked
+  B04    yolo     → ❌ blocked
+  B05    cyolo    → ❌ blocked
+  B06    cyolo    → ❌ blocked
+  B07    cyolo    → ❌ blocked
+  B08    cyolo    → ❌ blocked
+  B09    review   → ❌ blocked
+  B10    yolo     → ❌ blocked
+ผลลัพธ์: plans/hw08-cicd-microservices-a2/PLAN.md · plans/hw08-cicd-microservices-a2/dag.png · plans/hw08-cicd-microservices-a2/gantt-plan.png
+(exit 2)
+
